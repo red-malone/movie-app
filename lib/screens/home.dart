@@ -52,7 +52,7 @@ class MovieListWidget extends StatelessWidget {
           } else {
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                
+                childAspectRatio: 0.7 ,
                 crossAxisCount: 2, 
               ),
               itemCount: movieProvider.movies.length,
