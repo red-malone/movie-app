@@ -5,6 +5,8 @@ import 'package:tmdb_api/tmdb_api.dart';
 class MovieProvider extends ChangeNotifier {
   List<Movie> _movies = [];
   List<Movie> get movies => _movies;
+  List<Movie> _popular = [];
+  List<Movie> get popular => _popular;
 
   final String apiKey = '69500ab119d495403b12c7e36334bccf';
   final String accesstoken =
@@ -19,6 +21,10 @@ class MovieProvider extends ChangeNotifier {
       ),
     );
     Map result = await tmdbService.v3.movies.getTopRated();
-    _movies = result['results'].map<Movie>((movie) => Movie.fromJson(movie)).toList();
+    _movies =
+        result['results'].map<Movie>((movie) => Movie.fromJson(movie)).toList();
+    Map next = await tmdbService.v3.movies.getPopular();
+    _popular =
+        next['results'].map<Movie>((movie) => Movie.fromJson(movie)).toList();
   }
 }
