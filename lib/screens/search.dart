@@ -31,18 +31,21 @@ class _SearchScreenState extends State<SearchScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 20),
-          TextField(
-            onChanged: (value) {
-              movieProvider.fetchSearchMovies(value);
-              setState(() {
-                searchResults = movieProvider.search;
-              });
-            },
-            decoration: InputDecoration(
-              hintText: 'Search Movies',
-              prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                movieProvider.fetchSearchMovies(value);
+                setState(() {
+                  searchResults = movieProvider.search;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Search Movies',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
             ),
           ),
@@ -50,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
           if (searchResults.isEmpty)
             const Center(
               child: Text(
-                  "No results found. Please search for a different value."),
+                  "No results found.Search for a movie"),
             )
           else
             ListView.builder(
@@ -73,25 +76,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-/*
-if (searchResults.isEmpty) 
-            const Center(
-              child: Text("No results found. Please search for a different value."),
-            )
-          else
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: searchResults.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Image.network(
-                    "https://image.tmdb.org/t/p/original${searchResults[index].posterPath}",
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(searchResults[index].title),
-                  subtitle: Text(searchResults[index].overview),
-                );
-              },
-            ),
-*/
