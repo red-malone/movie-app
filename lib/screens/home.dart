@@ -61,6 +61,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
     );
   }
 }
+enum MovieSortCriterion { popularity, rating, year }
 
 
 class MoviesSection extends StatelessWidget {
@@ -79,7 +80,7 @@ class MoviesSection extends StatelessWidget {
               child:const MovieDisplay(movies: [], popular: [],tv: [],)
             );
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Error: ${snapshot.error}\nTurn on your net or restart the application'));
           } else {
             return MovieDisplay(
                 movies: movieProvider.movies, popular: movieProvider.popular,tv:const [],

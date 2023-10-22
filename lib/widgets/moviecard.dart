@@ -4,7 +4,7 @@ import 'package:movies/screens/movie_detsscreen.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
-  const MovieCard({Key? key, required this.movie}) : super(key: key);
+  const MovieCard({super.key, required this.movie});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -16,7 +16,7 @@ class MovieCard extends StatelessWidget {
         );
       },
       child: Card(
-        elevation: 4,
+        elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),

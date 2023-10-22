@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:movies/models/genre.dart';
 import 'package:movies/models/movie.dart';
 import 'package:movies/models/tvshows.dart';
 import 'package:tmdb_api/tmdb_api.dart';
+
+enum MovieSortCriterion { popularity, rating, year }
 
 class MovieProvider extends ChangeNotifier {
   List<Movie> _movies = [];
@@ -16,9 +19,10 @@ class MovieProvider extends ChangeNotifier {
   List<Movie> get search => _search;
   final List<Movie> _favourites = [];
   List<Movie> get favourites => _favourites;
-
-
-
+  List<Genre> _genre = [];
+  List<Genre> get genres => _genre;
+  //List<Movie> fixedmovie = [];
+  //List<Movie> fixedpopular = [];
   final String apiKey = '69500ab119d495403b12c7e36334bccf';
   final String accesstoken =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OTUwMGFiMTE5ZDQ5NTQwM2IxMmM3ZTM2MzM0YmNjZiIsInN1YiI6IjY1MmExMjA4MWYzZTYwMDBjNTg4ZTZjNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.f9v9ChAK4wSTnV9CjpICY4G2sDoFg8CMbGbGrkYO9ZU';
@@ -41,6 +45,15 @@ class MovieProvider extends ChangeNotifier {
     // _tv = tv['results'].map<TVShow>((shows) => TVShow.fromJson(shows)).toList();
     //_fullmovies=[..._movies, ..._popular];
     //_search = _fullmovies;
+    Map gen = await tmdbService.v3.genres.getMovieList();
+    _genre =
+        gen['genres'].map<Genre>((genre) => Genre.fromJson(genre)).toList();
+    // fixedmovie = result['results']
+    //     .map<Movie>((movie) => Movie.fromJson(movie))
+    //     .toList();
+    // fixedpopular = next['results']
+    //     .map<Movie>((movie) => Movie.fromJson(movie))
+    //     .toList();
   }
 
   Future<void> fetchSearchMovies(String query) async {
@@ -78,6 +91,36 @@ class MovieProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+  void sortMovies(MovieSortCriterion criterion) {
+    switch (criterion) {
+      case MovieSortCriterion.popularity:
+        _movies.sort((a, b) => b.popularity.compareTo(a.popularity));
+        break;
+      case MovieSortCriterion.rating:
+        _movies.sort((a, b) => b.voteAverage.compareTo(a.voteAverage));
+        break;
+      case MovieSortCriterion.year:
+        _movies.sort((a, b) => a.releaseDate.compareTo(b.releaseDate));
+        break;
+      default:
+        break;
+    }
+    notifyListeners();
+  }
 
+  // void filterMoviesByGenres(List<int> genre) {
+  //   if (genre.isNotEmpty) {
+  //     _movies = _movies
+  //         .where((movie) =>
+  //             movie.genreIds.any((element) => genre.contains(element)))
+  //         .toList();
+  //     _popular = _popular
+  //         .where((movie) =>
+  //             movie.genreIds.any((element) => genre.contains(element)))
+  //         .toList();
+  //     notifyListeners();
+  //   } else {
+  //     fetchTopRatedMovies();
+  //   }
+  // }
 }

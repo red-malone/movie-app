@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:movies/models/movie.dart';
 import 'package:movies/models/tvshows.dart';
 import 'package:movies/widgets/moviecard.dart';
-import 'package:movies/widgets/tvcard.dart';
+import 'package:movies/widgets/moviecard_list.dart';
+//import 'package:movies/widgets/tvcard.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MovieDisplay extends StatefulWidget {
@@ -19,16 +20,32 @@ class MovieDisplay extends StatefulWidget {
 }
 
 class _MovieDisplayState extends State<MovieDisplay> {
+  final controller = ScrollController();
   bool _showShimmer = true;
+  int _length = 5;
+  bool _showEndOfList = false;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _showShimmer = false;
       });
     });
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        setState(() {
+          _length += widget.popular.length;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -101,45 +118,42 @@ class _MovieDisplayState extends State<MovieDisplay> {
           ),
         ),
         _showShimmer
-            ? GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.7, crossAxisCount: 2),
+            ? ListView.builder(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
                 itemCount: 4,
                 itemBuilder: (context, index) {
-                  return ListView.builder(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return MovieCard(
-                            movie: Movie(
-                                adult: false,
-                                backdropPath: '',
-                                genreIds: [],
-                                id: 0,
-                                originalLanguage: '',
-                                originalTitle: '',
-                                overview: '',
-                                popularity: 0,
-                                posterPath: '',
-                                releaseDate: '',
-                                title: '',
-                                video: false,
-                                voteAverage: 0,
-                                voteCount: 0));
-                      });
-                })
-            : GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.7, crossAxisCount: 2),
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    period: const Duration(seconds: 1),
+                    child: MovieCardList(
+                      movie: Movie(
+                        adult: false,
+                        backdropPath: '',
+                        genreIds: [],
+                        id: 0,
+                        originalLanguage: '',
+                        originalTitle: '',
+                        overview: '',
+                        popularity: 0,
+                        posterPath: '',
+                        releaseDate: '',
+                        title: '',
+                        video: false,
+                        voteAverage: 0,
+                        voteCount: 0,
+                      ),
+                    ),
+                  );
+                },
+              )
+            : ListView.builder(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
                 itemCount: widget.popular.length,
                 itemBuilder: (context, index) {
-                  return MovieCard(
+                 return MovieCardList(
                     movie: widget.popular[index],
                   );
                 }),
@@ -173,3 +187,28 @@ class _MovieDisplayState extends State<MovieDisplay> {
     );
   }
 }
+ // if (index < widget.popular.length) {
+                  //   return MovieCardList(
+                  //     movie: widget.popular[index],
+                  //   );
+                  // } else {
+                  //   Future.delayed(const Duration(seconds: 2)).then((value) {
+                  //     setState(() {
+                  //       _showEndOfList = true;
+                  //     });
+                  //   });
+
+                  //   return _showEndOfList
+                  //       ? const Center(
+                  //           child: Text(
+                  //             'End of the list',
+                  //             style: TextStyle(
+                  //               fontSize: 24,
+                  //               fontWeight: FontWeight.bold,
+                  //             ),
+                  //           ),
+                  //         )
+                  //       : const Center(
+                  //           child: CircularProgressIndicator(),
+                  //         );
+                  // }

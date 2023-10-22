@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies/models/movie.dart';
+import 'package:movies/screens/movie_detsscreen.dart';
 import 'package:movies/utils/providers.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,7 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Movie> searchResults = [];
 
   void updateSearch(String value, MovieProvider movieProvider) {
-    setState(()  {
+    setState(() {
       searchResults = movieProvider.fullmovies
           .where((movie) =>
               movie.title.toLowerCase().contains(value.toLowerCase()))
@@ -52,8 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
           const SizedBox(height: 20),
           if (searchResults.isEmpty)
             const Center(
-              child: Text(
-                  "No results found.Search for a movie"),
+              child: Text("No results found.Search for a movie"),
             )
           else
             ListView.builder(
@@ -61,13 +61,25 @@ class _SearchScreenState extends State<SearchScreen> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: searchResults.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Image.network(
-                    "https://image.tmdb.org/t/p/original${searchResults[index].posterPath}",
-                    fit: BoxFit.cover,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MovieDetails(movie: searchResults[index]),
+                      ),
+                    );
+                  
+                  },
+                  child: ListTile(
+                    leading: Image.network(
+                      "https://image.tmdb.org/t/p/original${searchResults[index].posterPath}",
+                      fit: BoxFit.cover,
+                      width: 100,
+                    ),
+                    title: Text(searchResults[index].title),
+                    subtitle: Text(searchResults[index].overview),
                   ),
-                  title: Text(searchResults[index].title),
-                  subtitle: Text(searchResults[index].overview),
                 );
               },
             ),
