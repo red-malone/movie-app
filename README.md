@@ -16,16 +16,10 @@ This Flutter project is a basic movie app that displays both rated and popular m
 - **API Delay**: Currently experiences delays with API responses.
 - **Favorites Reset**: Favorites are reset after refreshing the page.
 
+## API Link
+- The app uses data from [The Movie Database (TMDb)](https://www.themoviedb.org/), a popular source for movie and TV show information.
+
 ## Video Showcase
-
-
-## Getting Started
-
-This project is a starting point for a Flutter application. If you're new to Flutter, you can get started by following these resources:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For comprehensive guidance on Flutter development, consult the [online documentation](https://docs.flutter.dev/), which offers tutorials, samples, guidance on mobile development, and a full API reference.
+[Watch a video showcasing the app on GitHub](https://github.com/red-malone/movie-app/assets/96327578/b83e2d85-bb1e-4694-88a2-a78da8306954)
 
 Feel free to contribute to the project and help us improve the movie app!
