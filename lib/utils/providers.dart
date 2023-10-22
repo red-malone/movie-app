@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies/models/genre.dart';
 import 'package:movies/models/movie.dart';
-import 'package:movies/models/tvshows.dart';
+//import 'package:movies/models/tvshows.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 enum MovieSortCriterion { popularity, rating, year }

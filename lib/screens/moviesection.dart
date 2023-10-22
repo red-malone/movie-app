@@ -22,7 +22,7 @@ class MovieDisplay extends StatefulWidget {
 class _MovieDisplayState extends State<MovieDisplay> {
   final controller = ScrollController();
   bool _showShimmer = true;
-  int _length = 5;
+   int _length = 5;
   bool _showEndOfList = false;
 
   @override
