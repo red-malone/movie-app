@@ -14,7 +14,7 @@ class MovieProvider extends ChangeNotifier {
   List<Movie> get fullmovies => _fullmovies;
   List<Movie> _search = [];
   List<Movie> get search => _search;
-  List<Movie> _favourites = [];
+  final List<Movie> _favourites = [];
   List<Movie> get favourites => _favourites;
 
 
@@ -39,8 +39,8 @@ class MovieProvider extends ChangeNotifier {
         next['results'].map<Movie>((movie) => Movie.fromJson(movie)).toList();
     //Map tv = await tmdbService.v3.tv.getPopular();
     // _tv = tv['results'].map<TVShow>((shows) => TVShow.fromJson(shows)).toList();
-    _fullmovies=[..._movies, ..._popular];
-    _search = _fullmovies;
+    //_fullmovies=[..._movies, ..._popular];
+    //_search = _fullmovies;
   }
 
   Future<void> fetchSearchMovies(String query) async {
@@ -66,6 +66,16 @@ class MovieProvider extends ChangeNotifier {
     } else {
       _favourites.add(movie);
       return true;
+    }
+  }
+
+  bool existing(Movie movie) {
+    final existingIndex =
+        _favourites.indexWhere((element) => element.id == movie.id);
+    if (existingIndex >= 0) {
+      return true;
+    } else {
+      return false;
     }
   }
   

@@ -12,22 +12,22 @@ class MovieDetails extends StatefulWidget {
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
-  bool _val=true; 
-  Icon _icon=const Icon(Icons.favorite_border);
+ 
   @override
   Widget build(BuildContext context) {
-  
     final movieProvider = Provider.of<MovieProvider>(context);
+    bool val=movieProvider.existing(widget.movie);
+    Icon icon=val ? const Icon(Icons.favorite): const Icon(Icons.favorite_border);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.movie.title),
         actions: [
           IconButton(
             onPressed: () {
-              _val=movieProvider.toggleFavorite(widget.movie);
-              if(_val==true) {
+              val=movieProvider.toggleFavorite(widget.movie);
+              if(val==true) {
                 setState(() {
-                  _icon=const Icon(Icons.favorite);
+                  icon=const Icon(Icons.favorite);
                 });
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -37,7 +37,7 @@ class _MovieDetailsState extends State<MovieDetails> {
               }
               else{
                 setState(() {
-                  _icon=const Icon(Icons.favorite_border);
+                  icon=const Icon(Icons.favorite_border);
                 });
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -46,7 +46,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                 );
                 }
             },
-            icon: _icon,
+            icon: icon,
           ),
         ],
       ),

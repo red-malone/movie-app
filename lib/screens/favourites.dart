@@ -11,7 +11,6 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  bool _val = true;
   @override
   Widget build(BuildContext context) {
     final movieProvider = Provider.of<MovieProvider>(context);
@@ -26,25 +25,32 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             )
           else
             ListView.builder(
-                shrinkWrap: true,
-                itemCount: movieProvider.favourites.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>MovieDetails(movie: movieProvider.favourites[index],)));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: Image.network(
-                          "https://image.tmdb.org/t/p/original${movieProvider.favourites[index].posterPath}",
-                          fit: BoxFit.cover,
+              shrinkWrap: true,
+              itemCount: movieProvider.favourites.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (builder) => MovieDetails(
+                          movie: movieProvider.favourites[index],
                         ),
-                        title: Text(movieProvider.favourites[index].title),
                       ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      leading: Image.network(
+                        "https://image.tmdb.org/t/p/original${movieProvider.favourites[index].posterPath}",
+                        fit: BoxFit.cover,
+                      ),
+                      title: Text(movieProvider.favourites[index].title),
                     ),
-                  );
-                })
+                  ),
+                );
+              },
+            ),
         ],
       ),
     );

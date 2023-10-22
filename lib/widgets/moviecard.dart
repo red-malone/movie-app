@@ -12,7 +12,8 @@ class MovieCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => MovieDetails(movie: movie),
-          ),);
+          ),
+        );
       },
       child: Card(
         elevation: 4,
@@ -22,13 +23,14 @@ class MovieCard extends StatelessWidget {
         child: Stack(
           children: [
             ClipRRect(
+              clipBehavior: Clip.hardEdge,
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.network(
-                movie.posterPath != '' && movie.posterPath.isNotEmpty
-                  ? "https://image.tmdb.org/t/p/original${movie.posterPath}"
-                  : "https://via.placeholder.com/150",
-                fit: BoxFit.cover,
-              ),
+              child:Image.network(
+                movie.posterPath != '' && movie.posterPath.isNotEmpty?
+                      "https://image.tmdb.org/t/p/original${movie.posterPath}" :
+                    "https://eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg",
+                      fit: BoxFit.cover,
+                    )
             ),
             Positioned(
               bottom: 0,
